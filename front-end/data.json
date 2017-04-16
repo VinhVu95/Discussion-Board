@@ -1,0 +1,21 @@
+{
+	"title":"title1",
+	"id":"1",
+	"content":"content1",
+	"numberLike":3,
+	"numberDisLike":0,
+	"createdDate":null,
+	"modifiedDate":null,
+	"createdUser":{
+		"id": "1",
+		"name": "name1",
+		"position": "position1",
+		"role": "role1",
+		"userID": null,
+		"listTopic": [],
+		"listReply": [10],
+		"department": "Dept1"},
+	"listReply": [],
+	"parentID": null,
+	"popularity": 3 
+}

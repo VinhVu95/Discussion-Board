@@ -1,0 +1,18 @@
+           <div> 
+            <span ng-click="toggleModal()" class="btn btn-default">reply</span> 
+            <div ng-repeat="reply in replies| orderBy: -'popularity' "> 
+            <span> {{reply.content}} </span>
+            <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementLike(reply)"></span>
+            {{reply.numberLike}} - 
+            <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementDisLike(reply)"></span>
+            {{reply.numberDisLike}}
+            </div>
+            <div ng-show="showModal">
+            <form ng-submit="replyComment()">
+            <div class="form-group">
+            <input type="text" class="form-control" placeholder="Comment" ng-model="content"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Reply</button>
+            </form>
+            </div>
+            </div>

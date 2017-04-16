@@ -1,0 +1,115 @@
+<html>
+
+<head>
+    <title>Discussion Board</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+    rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="app.js"></script>
+    <script src="Services.js"></script>
+    <script src="Controllers.js"></script>
+    <style>
+        .glyphicon-thumbs-up {
+            cursor: pointer
+        }
+    </style>
+    <style>
+        .glyphicon-thumbs-down {
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body ng-app="discussionBoardApp">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <ui-view></ui-view>
+        </div>
+    </div>
+    <script type="text/ng-template" id="/login.html">
+        <form ng-submit="Login()" style="margin-top:30px;">
+            <h3>Discussion Board portal</h3>
+            <div class="form-group">
+                <input type="text" placeholder="Your username" ng-model="username" class="form-text"></input>
+            </div>
+
+            <div class="form-group">
+                <input type="password" placeholder="Your Password" ng-model="password" class="form-text"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </script>
+    <script type="text/ng-template" id="/home.html">
+        <div class="page-head">
+            <h1> Discussion Board</h1>
+            <span><button type ="button" ng-click="logout()">Logout</button></span>
+        </div>
+        <div ng-repeat="post in posts | orderBy: '-(popularity)'">
+            <span> {{post.title}} </span>
+            <span>
+              <a href="#/posts/{{post.id}}">Comments</a>
+          </span>:
+            <span> {{post.content}} </span> - {{post.numberLike}}
+            <span ng-click="incrementLike(post)" class="glyphicon glyphicon-thumbs-up">
+          </span> - {{post.numberDisLike}}
+            <span ng-click="incrementDisLike(post)" class="glyphicon glyphicon-thumbs-down">
+          </span> by {{post.createdUser.name}}
+
+        </div>
+
+        <form ng-submit="addPost()" style="margin-top:30px;">
+            <h3>Add a new post</h3>
+            <div class="form-group">
+                <input type="text" placeholder="Title (Required)" ng-model="title" class="form-text"></input>
+            </div>
+
+            <div class="form-group">
+                <textarea type="textarea" placeholder="Content" ng-model="content" class="form-text"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="/posts.html">
+        <div class="page-header">
+            <h3>
+        <span>
+            {{post.title}}
+        </span>     
+      </h3>
+            <span>
+            <a href="#/home">Back to main</a>
+         </span>
+        </div>
+
+        <div> {{post.content}} </div>
+
+        <div ng-repeat="comment in post.listReply | orderBy:'-popularity'">
+
+            <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementLike(comment)"></span>            {{comment.numberLike}} -
+            <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementDisLike(comment)"></span>            {{comment.numberDisLike}} - by {{comment.createdUser.name}}
+            <span style="font-size:15px; margin-left:10px;">
+      {{comment.content}}
+    </span>
+            <span ng-click="incrementLike(post)"></span>
+            <div style="margin-left:5%">
+                <reply-dialog id="comment.id" replies="comment.listReply" pop="comment.popularity">
+            </div>
+            </reply-dialog>
+
+        </div>
+        <form ng-submit="addComment()" style="margin-top:30px;">
+            <h3>Add a new comment</h3>
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Comment" ng-model="content"></input>
+            </div>
+            <button type="submit" class="btn btn-primary">Reply</button>
+        </form>
+    </script>
+</body>
+
+</html>
